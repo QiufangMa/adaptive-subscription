@@ -118,7 +118,7 @@ Internet-Draft            Adaptive Subscription                 May 2025
    10. References  . . . . . . . . . . . . . . . . . . . . . . . . .  25
      10.1.  Normative References . . . . . . . . . . . . . . . . . .  25
      10.2.  Informative References . . . . . . . . . . . . . . . . .  26
-   Appendix A.  Use Cases  . . . . . . . . . . . . . . . . . . . . .  28
+   Appendix A.  Use Cases  . . . . . . . . . . . . . . . . . . . . .  27
      A.1.  Wireless Network Performance Monitoring . . . . . . . . .  28
      A.2.  Reducing Impact on High CPU Utilization . . . . . . . . .  28
    Appendix B.  Example YANG Module  . . . . . . . . . . . . . . . .  29
@@ -291,7 +291,7 @@ Internet-Draft            Adaptive Subscription                 May 2025
       format.  Different from selection filter defined in [RFC8641], it
       monitors a specific data node instance change and evaluates the
       trigger condition associated with the specified threshold value to
-      be true or false using XPath rules and does not affect the even/
+      be true or false using XPath rules and does not affect the event/
       update record output generation from a publisher.  The updates are
       only pushed as the corresponding period interval when the XPath
       expression is evaluated to "true".
@@ -347,9 +347,9 @@ Internet-Draft            Adaptive Subscription                 May 2025
    *  "eval-interval": defines how often the XPath condition expression
       as defined in "eval-expression" is evaluated to decide whether to
       switch to another period interval.  If an "eval-interval" is not
-      provided, then the "eval-interval" MUST be set with the minimum
-      time interval that the server is able to detect wherever changes
-      to the targeted data node occur.
+      provided, then the "eval-interval" is set with the minimum time
+      interval that the server is able to detect wherever changes to the
+      targeted data node occur.
 
    *  "period": defines the duration between push updates, in units of
       0.01 seconds.  The "period" has the same definition as the
@@ -1143,7 +1143,7 @@ Internet-Draft            Adaptive Subscription                 May 2025
    criterion that is applied against the targeted data node(s).
 
    The subscriber must take care about the following complex XPath
-   evalution criteria design and usage, although they have already been
+   evaluation criteria design and usage, although they have already been
    well supported by the Section 3.4 of [XPATH1.0]:
 
    *  Apply XPath evaluation criteria on any arbitrary "config true" and
@@ -1202,37 +1202,22 @@ Internet-Draft            Adaptive Subscription                 May 2025
 
 5.2.  Threshold Selection for XPath Evaluation
 
-   It is not always trivial for a subscriber to determine the threshold
-   used in an XPath expression criterion.  In extreme cases, a too high
-   or low threshold may make adaptive subscription degenerated to
-   periodic subscription.  Sometimes the threshold needs to be adjusted
-   during the lifecycle of an adaptive subscription, depending on
-   historical fluctuation range and how rapid the targeted value of the
-   node changes, distribution characteristics of the targeted node value
-   or even the generated volume of telemetry traffic.
+   Determining the threshold used in an XPath expression criterion can
+   be challenging for subscribers sometimes.  Generally, the selection
+   of a threshold should be based on the impact of the targeted node on
+   monitored service/application and experience from deployments.  In
+   extreme cases, setting a too high or low threshold may make adaptive
+   subscription degenerated to periodic subscription.  Sometimes the
+   threshold needs to be adjusted during the lifecycle of an adaptive
+   subscription, depending on factors like historical fluctuation range,
+   how rapid the targeted value of the node changes, distribution
+   characteristics of the targeted node value and even the generated
+   volume of telemetry traffic.
 
 6.  Implementation Status
 
    Note to the RFC Editor: Please remove this section before
    publication, as well as the reference to [RFC7942].
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Wu, et al.              Expires 14 November 2025               [Page 22]
-
-Internet-Draft            Adaptive Subscription                 May 2025
-
 
    This section records the status of known implementations of the
    mechanism defined by this specification at the time of posting of
@@ -1241,6 +1226,14 @@ Internet-Draft            Adaptive Subscription                 May 2025
    intended to assist the IETF in its decision processes in progressing
    drafts to RFCs.  Please note that the listing of any individual
    implementation here does not imply endorsement by the IETF.
+
+
+
+Wu, et al.              Expires 14 November 2025               [Page 22]
+
+Internet-Draft            Adaptive Subscription                 May 2025
+
+
    Furthermore, no effort has been spent to verify the information
    presented here that was supplied by IETF contributors.  This is not
    intended as, and must not be construed to be, a catalog of available
@@ -1279,17 +1272,6 @@ Internet-Draft            Adaptive Subscription                 May 2025
 
    *  Adaptive subscriptions:
 
-
-
-
-
-
-
-Wu, et al.              Expires 14 November 2025               [Page 23]
-
-Internet-Draft            Adaptive Subscription                 May 2025
-
-
       -  For the RSSI collection, if the RSSI value is greater than or
          equal to -65 dB, switch to 30 seconds for publication;
          otherwise, switch to 2 seconds for publication; threshold
@@ -1299,6 +1281,14 @@ Internet-Draft            Adaptive Subscription                 May 2025
          than or equal to 60000 bytes, switch to 1 minute for
          publication; otherwise, switch to 10 minutes for publication;
          threshold detection occurs every minute.
+
+
+
+
+Wu, et al.              Expires 14 November 2025               [Page 23]
+
+Internet-Draft            Adaptive Subscription                 May 2025
+
 
    The results show adaptive telemetry can greatly reduce the data
    volume but still ensure network events can be captured at the same
@@ -1339,13 +1329,6 @@ Internet-Draft            Adaptive Subscription                 May 2025
    effect on network operations.  The following subtrees and data nodes
    have particular sensitivities/vulnerabilities:
 
-
-
-Wu, et al.              Expires 14 November 2025               [Page 24]
-
-Internet-Draft            Adaptive Subscription                 May 2025
-
-
    *  "periodic": By modifying this list, an attacker might alter the
       updates that are being sent in order to confuse a receiver,
       withhold certain updates to be sent to the receiver, and/or
@@ -1354,6 +1337,14 @@ Internet-Draft            Adaptive Subscription                 May 2025
       expression, resulting in certain updates not being published or a
       high volume of updates being published to exhaust receiver
       resources.
+
+
+
+
+Wu, et al.              Expires 14 November 2025               [Page 24]
+
+Internet-Draft            Adaptive Subscription                 May 2025
+
 
    This YANG module uses groupings from other YANG modules that define
    nodes that may be considered sensitive or vulnerable in network
@@ -1395,13 +1386,6 @@ Internet-Draft            Adaptive Subscription                 May 2025
               RFC 6991, DOI 10.17487/RFC6991, July 2013,
               <https://www.rfc-editor.org/info/rfc6991>.
 
-
-
-Wu, et al.              Expires 14 November 2025               [Page 25]
-
-Internet-Draft            Adaptive Subscription                 May 2025
-
-
    [RFC7950]  Bjorklund, M., Ed., "The YANG 1.1 Data Modeling Language",
               RFC 7950, DOI 10.17487/RFC7950, August 2016,
               <https://www.rfc-editor.org/info/rfc7950>.
@@ -1409,6 +1393,14 @@ Internet-Draft            Adaptive Subscription                 May 2025
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
+
+
+
+
+Wu, et al.              Expires 14 November 2025               [Page 25]
+
+Internet-Draft            Adaptive Subscription                 May 2025
+
 
    [RFC8341]  Bierman, A. and M. Bjorklund, "Network Configuration
               Access Control Model", STD 91, RFC 8341,
@@ -1436,7 +1428,8 @@ Internet-Draft            Adaptive Subscription                 May 2025
 
 10.2.  Informative References
 
-   [CHIP]     CSA, "Connected Home over IP Specification", April 2021.
+   [CHIP]     CSA, "Connected Home over IP Specification", April 2021,
+              <https://csa-iot.org/all-solutions/matter>.
 
    [I-D.ietf-netmod-rfc8407bis]
               Bierman, A., Boucadair, M., and Q. Wu, "Guidelines for
@@ -1445,18 +1438,6 @@ Internet-Draft            Adaptive Subscription                 May 2025
               netmod-rfc8407bis-25, 6 May 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-netmod-
               rfc8407bis-25>.
-
-
-
-
-
-
-
-
-Wu, et al.              Expires 14 November 2025               [Page 26]
-
-Internet-Draft            Adaptive Subscription                 May 2025
-
 
    [IEEE754-2008]
               IEEE, "IEEE Standard for Floating-Point Arithmetic",  DOI
@@ -1467,6 +1448,15 @@ Internet-Draft            Adaptive Subscription                 May 2025
    [RFC3688]  Mealling, M., "The IETF XML Registry", BCP 81, RFC 3688,
               DOI 10.17487/RFC3688, January 2004,
               <https://www.rfc-editor.org/info/rfc3688>.
+
+
+
+
+
+Wu, et al.              Expires 14 November 2025               [Page 26]
+
+Internet-Draft            Adaptive Subscription                 May 2025
+
 
    [RFC4252]  Ylonen, T. and C. Lonvick, Ed., "The Secure Shell (SSH)
               Authentication Protocol", RFC 4252, DOI 10.17487/RFC4252,
@@ -1507,14 +1497,22 @@ Internet-Draft            Adaptive Subscription                 May 2025
    [XPATH1.0] W3C, "https://www.w3.org/TR/1999/REC-xpath-19991116/", 11
               November 1999.
 
+Appendix A.  Use Cases
+
+
+
+
+
+
+
+
+
 
 
 Wu, et al.              Expires 14 November 2025               [Page 27]
 
 Internet-Draft            Adaptive Subscription                 May 2025
 
-
-Appendix A.  Use Cases
 
 A.1.  Wireless Network Performance Monitoring
 
@@ -1558,6 +1556,8 @@ A.2.  Reducing Impact on High CPU Utilization
    threshold, indicating the device has sufficient idle resources, the
    subscriber can revert to a shorter period interval for streaming data
    without exhausting the CPU resources at the same time.
+
+
 
 
 
